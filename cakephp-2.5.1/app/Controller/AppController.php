@@ -31,4 +31,28 @@ App::uses('Controller', 'Controller');
  * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
  */
 class AppController extends Controller {
+
+	public function beforeFilter(){
+
+		$apikey = "123";  // key of Header HTTP form 
+		$request = getallheaders();
+		$params = $this->params->url;
+
+		if ($params == "errors.json") 
+		{
+			return;
+
+		} 
+		else if (empty($request["apikey"]))
+		{
+			$this->redirect(array('controller'=>'errors.json'));
+			
+		} 
+		else if($request["apikey"] != $apikey)
+		{
+			$this->redirect(array('controller'=>'errors.json'));
+			
+		}
+
+	}
 }
